@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title >
+      <ion-row justify-content-center>
+          PAGAMENTOS
+      </ion-row>   
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+<ion-list>
+  <ion-card padding *ngFor="let item of items">
+    <ion-row>
+       Ticket:<b>{{item.ticket}}</b>
+    </ion-row>
+       Entrada:<b>{{item.entrada}}</b> » Saída:<b>{{item.saida}}</b>
+    <ion-row>
+       Pagou:<b>R${{calculaValor(item)}}</b>
+    </ion-row>
+  </ion-card>
+</ion-list>
+</ion-content>
+
