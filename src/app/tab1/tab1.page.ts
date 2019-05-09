@@ -8,9 +8,9 @@ import { Estacionamento } from '../estacionamento';
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page {
-  constructor(private estService:ServicoService){ }
+  constructor(private estService: ServicoService){ }
 
   ngOnInit(){
-    this.estService.ticket='';
+    this.estService.ticket = '';
   }
 }

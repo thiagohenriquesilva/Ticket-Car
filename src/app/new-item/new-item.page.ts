@@ -57,7 +57,7 @@ export class NewItemPage implements OnInit {
     alert ( 'Falta valores a serem definidos!' );
   }
   okPag(value){
-    this.estService.pagamentoConfirmado(value);
+    this.estService.addPagamento(value);
     this.estacionamento = null;
     this.estService.ticket = '';
 }
