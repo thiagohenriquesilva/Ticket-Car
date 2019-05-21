@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ServicoService } from '../services/servico.service';
-import { from } from 'rxjs';
+import { from, Observable } from 'rxjs';
+import { Estacionamento } from '../estacionamento';
 
 @Component({
   selector: 'app-tab2',
@@ -8,12 +9,13 @@ import { from } from 'rxjs';
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page {
-  items:Array<any>;
+  items:Observable<Estacionamento[]>;
 
-  constructor(private estService: ServicoService) {}
+  constructor(public estService: ServicoService) {}
 
   ngOnInit(){
-    this.items = this.estService.getRetornaPagamento();
+    this.items = this.estService.getPagamentos();
+    console.log(this.items);
   }
 
   calculaValor(value)

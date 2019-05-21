@@ -3,20 +3,30 @@ import { Router, ActivatedRoute} from '@angular/router';
 import { ServicoService } from '../services/servico.service';
 import { Estacionamento } from '../estacionamento';
 
+
 @Component({
   selector: 'app-new-item',
   templateUrl: './new-item.page.html',
   styleUrls: ['./new-item.page.scss'],
 })
 export class NewItemPage implements OnInit {
-  estacionamento: Estacionamento;
+  estacionamento: Estacionamento = {
+    ticket: '',
+    entrada: '',
+    saida: ''
+  };
   valor: Number;
 
-  constructor(private route: ActivatedRoute, private estService:ServicoService) { }
+  constructor(
+    private activateRoute: ActivatedRoute,
+    private ticketService: ServicoService,
+    private router: Router,
+    private estService: ServicoService) { }
 
   ngOnInit() {
-    this.estacionamento = new Estacionamento();
-    this.route.params.subscribe(
+    
+    //this.estacionamento = new Estacionamento();
+    this.activateRoute.params.subscribe(
       data => {
         this.estacionamento.ticket = data.id;
       }
@@ -57,8 +67,26 @@ export class NewItemPage implements OnInit {
     alert ( 'Falta valores a serem definidos!' );
   }
   okPag(value){
-    this.estService.addPagamento(value);
-    this.estacionamento = null;
-    this.estService.ticket = '';
-}
+
+    var horaEntrada = parseInt(this.estacionamento.entrada.slice(11,13));
+    var horaSaida = parseFloat(this.estacionamento.saida.slice(11,13));
+    var minEntada =  parseFloat(this.estacionamento.entrada.slice(14,16));
+    var minSaida = parseFloat(this.estacionamento.saida.slice(14,16));
+    this.estacionamento.entrada =(horaEntrada + ':' + (minEntada<10?'0'+minEntada:minEntada)).toString();
+    this.estacionamento.saida =(horaSaida + ':' + (minSaida<10?'0' + minSaida:minSaida)).toString();  
+    this.estService.addPagamento(this.estacionamento);
+    this.estService.ticket='';
+
+    //this.estService.addPagamento(value);
+    //this.estacionamento = null;
+    //this.estService.ticket = '';
+  }
+
+  addPagamento(){
+    this.ticketService.addPagamento(this.estacionamento).then(
+      () => {
+        this.router.navigateByUrl('/');
+      }
+    )
+  }
 }

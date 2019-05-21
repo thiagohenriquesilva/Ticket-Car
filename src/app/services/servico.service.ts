@@ -5,17 +5,18 @@ import { ActionSequence } from 'protractor';
 import {map, take} from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
+
 @Injectable({
   providedIn: 'root'
 })
 export class ServicoService {
   recibos: Observable<Estacionamento[]>;
   ticket: string;
-  ticketCollection: AngularFirestoreCollection<Estacionamento>;
+  pagamentoCollection: AngularFirestoreCollection<Estacionamento>;
 
   constructor(private afs: AngularFirestore) {
-    this.ticketCollection = this.afs.collection<Estacionamento>('Tickets');
-    this.recibos = this.ticketCollection.snapshotChanges()
+    this.pagamentoCollection = this.afs.collection<Estacionamento>('Tickets');
+    this.recibos = this.pagamentoCollection.snapshotChanges()
     .pipe(
       map( action => {
         return action.map( a => {
@@ -35,16 +36,20 @@ export class ServicoService {
   //  });
   //}
   
-  getRetornaPagamento() {
+  //getRetornaPagamento() {
+  //  return this.recibos;
+ // }
+
+  addPagamento(estacionamento: Estacionamento): Promise<DocumentReference>{
+    return this.pagamentoCollection.add(estacionamento);
+  }
+
+  getPagamentos(): Observable<Estacionamento[]>{
     return this.recibos;
   }
 
-  addPagamento(estacionamento: Estacionamento): Promise<DocumentReference>{
-    return this.ticketCollection.add(estacionamento);
-  }
-
   getPagamento(id: string): Observable<Estacionamento>{
-    return this.ticketCollection.doc<Estacionamento>(id).valueChanges()
+    return this.pagamentoCollection.doc<Estacionamento>(id).valueChanges()
     .pipe(
       take(1),
       map(estacionamento => {

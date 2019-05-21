@@ -36,7 +36,8 @@
   </ion-row>
   <ion-row justify-content-center>  
     <ion-item>
-        <ion-button  [disabled]="valor===0" (click)="okPag(estacionamento)"  [routerLink]="['/tabs/confirmacao']">Finalizar</ion-button>
+        <ion-button  [disabled]="valor===0" (click)="addPagamento()"  
+        [routerLink]="['/tabs/confirmacao']">Finalizar</ion-button>
     </ion-item> 
   </ion-row> 
 </ion-card>
