@@ -16,14 +16,22 @@ export class Tab2Page {
   ngOnInit(){
     this.items = this.estService.getPagamentos();
     console.log(this.items);
+    this.items.subscribe(
+      (r) => console.log(r[0]),
+      (err) => console.log(err)
+    )
   }
 
   calculaValor(value)
  {
-    var horaEntrada = parseFloat(value.entrada.slice(0,2));
-    var minEntrada = parseFloat(value.entrada.slice(3,5));
-    var horaSaida = parseFloat(value.saida.slice(0,2));
-    var minSaida = parseFloat(value.entrada.slice(3,5));
+    let e = value.entrada.split(':')
+    let s = value.saida.split(':')
+
+    var horaEntrada = parseFloat(e[0]);
+    var minEntrada = parseFloat(e[1]);
+    var horaSaida = parseFloat(s[0]);
+    var minSaida = parseFloat(s[1]);
+
     var result = 0.0;
  
     if ( horaEntrada > horaSaida ) {
